@@ -1,0 +1,32 @@
+﻿@using System.Activities.Statements
+@model IEnumerable<FrontClass.Models.Course>
+
+@{
+    ViewBag.Title = "Administration Home";
+}
+
+<h2>Manage Your Courses</h2>
+
+<p>Create new or modify existing <a href="@Url.Action("Index", "Courses")">courses</a>.</p>
+<p>Manage your <a href="@Url.Action("Index", "Modules")">modules</a> for any course.</p>
+<p>Create  <a href="@Url.Action("Index", "Steps")">content</a> for your modules.</p>
+
+<hr/>
+
+<h2>Begin Instruction</h2>
+<p>Click on any course module below to start a class and begin instruction.</p>
+
+<div class="container">
+    @foreach (var course in Model)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <h4>@course.Title</h4>
+                <p>@foreach (var module in course.Modules)
+                {
+                    <a href="@Url.Action("Index", "Instruct", new { moduleId = module.ModuleId, area="" })" class="btn btn-sm btn-success">@module.Title</a>
+                }</p>
+            </div>
+        </div>
+    }
+</div>

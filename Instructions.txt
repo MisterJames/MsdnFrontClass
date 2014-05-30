@@ -1,0 +1,10 @@
+Building the App
+-------------------------
+You will need to restore the packages in the solution to rebuild the app, otherwise no changes should be required.
+
+Running the App 
+-------------------------
+You will need two browsers to see the full app in use.
+1) Open the first browser and log in as instructor@contoso.com with a password of init_2014. Navigate to course management page, then start a module. 
+2) Open a second browser (different vendor, or in "private" mode) and register your own account. This will allow you be a "student". Enrol in the math course with the password of "welcome" and enter the classroom.
+

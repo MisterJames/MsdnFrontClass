@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    var module = MvcApplication.Classroom.CurrentModule;
+}
+
+<h2>Welcome to Class</h2>
+
+<div>
+    Choose an available step:
+    <div id="available-steps" class="btn-group btn-group-xs">
+        (Waiting for available steps...)
+    </div>
+</div>
+
+<div id="chalkboard"></div>
+
+    @section scripts{
+        <script src="~/Scripts/jquery.signalR-2.0.3.js"></script>
+        <script src="~/SignalR/Hubs"></script>
+
+        <script>
+            var $chalkboard = $("#chalkboard");
+            var $availableSteps = $("#available-steps");
+            var stepUrl = '@Url.Action("GetCurrentStep")';
+
+            function loadStepToChalkboard(stepId) {
+                $chalkboard.load(stepUrl, { 'stepId': stepId });
+            }
+
+            function buildAvailableSteps(data) {
+                $availableSteps.empty();
+
+                if (data.length === 0) {
+                    $availableSteps.html("<i>The instructor has not yet shared any steps.</i>");
+                }
+
+                $.each(data, function (index, value) {
+                    $availableSteps.append(
+                        $('<button class="btn btn-info step-select" data-id="'
+                            + value.StepId + '">'
+                            + value.Title
+                            + '</button>'));
+                });
+            }
+
+            $("#available-steps").on("click", "button", function () {
+                loadStepToChalkboard($(this).attr("data-id"));
+            });
+
+            $(function() {
+                $chalkboard.load(stepUrl);
+
+                var hub = $.connection.classroomHub;
+
+                hub.client.notifyStepAvailable = function(stepId) {
+                    loadStepToChalkboard(stepId);
+                    hub.server.getAvailableSteps();
+                };
+
+                hub.client.notifyAvailableSteps = function(data) {
+                    buildAvailableSteps(data);
+                }
+
+                $.connection.hub.logging = true;
+                $.connection.hub.start().done(function() {
+                    hub.server.getAvailableSteps();
+                });
+
+            });
+
+        </script>
+    }
+
+

@@ -1,0 +1,29 @@
+﻿@model FrontClass.Models.Step
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Module.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Module.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+    </dl>
+    <hr />
+
+    @Html.Raw(Model.Content)
+
+
+</div>
+
